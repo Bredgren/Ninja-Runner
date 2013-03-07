@@ -1,0 +1,10 @@
+level 1: 19.36s
+level 2: 27.29s
+level 3: 30.66s
+level 4: 46.89s
+level 5: 61.79s
+level 6: 25.98s
+level 7: 23.76s
+level 8: 63.34
+level 9: N/A
+Epic Level: N/A

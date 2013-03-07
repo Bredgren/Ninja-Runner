@@ -1,0 +1,62 @@
+How to make your own level:
+1) Open '10x10lvlTemplate.png' from the 'data' file in 
+   Paint.NET or something similar.
+2) Create your level and save it in the 'data' folder.
+   Most of the walls have been colored already to help save
+   time. Don't worry about the red frame or the numbers.
+   Each screen is a 30 pixel X 30 pixel square.
+   The player will spawn on pixel (5, 28) relative to the
+   30x30 start square.
+   Each pixel represents a potential object. The color of the
+   pixel determines which object will be displayed there according
+   to the following:
+
+ITEM NAME:     (RED,GREEN,BLUE)
+
+nonthing:      (255,255,255)
+border:        (255,0,0),
+shiny floor:   (0,0,0),
+grey floor:    (100,100,100),
+shiny wallL:   (120,0,0),
+shiny wallR:   (0,120,0),
+shiny cornerBL:(0,0,120),
+shiny cornerBR:(0,0,255),
+shiny cornerTL:(120,120,0),
+shiny cornerTR:(120,200,0),
+door:          (120,120,255),
+door top:      (120,255,120),
+light:         (255,255,120),
+white cealing: (200,200,200),
+jet pack:      (255,120,0),
+teleport:      (120,255,255),
+health:        (0,255,0),
+battery:       (255,255,0),
+ball enemy:    (120,0,120),
+robot enemy:   (120,0,255),
+broken floor:  (255,0,120),
+broken solid:  (255,120,120),
+floor spike:   (255,0,255),
+checkpoint:    (255,120,255)
+
+3) Be sure to have it saved in the 'data' folder as a .png.
+
+To make your level appear in the menu:
+1) Open 'level data.txt'.
+2) Create a new line at the bottom (make sure they are always after the epic level)
+3) Write the level exactly as you saved it WITHOUT '.png', 
+   followed by a colon (:).
+4) The next space is where the record is held. Just put 3600.00
+   or some other large number so that when it is played it will
+   be overwriten on the first attempt. Followed by a colon.
+5) Then put the x value of the square you inteded to be the 
+   starting square. This will be a value from 1-10 as show
+   across the top when seen in  the picture editor. Followed by a colon.
+6) Then the y value, followed by a colon.
+7) The last slot is the ninja time. You can put there what you want.
+8) There should be no spaces unless your level name has spaces.
+   Also none of the spots should be left blank or hold any 
+   different kind of data then intended, it will cause the 
+   game to crash when trying to read or write to the level data
+   file.
+9) Save the level data text file and the next time you play
+   your level should appear at the end of the list.
