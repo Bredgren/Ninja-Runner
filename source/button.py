@@ -2,7 +2,7 @@ import pygame
 import game_vars, sys
 from constants import *
 
-class textButton():
+class textButton:
     def __init__(self, text, size, x, y):
         self.message = text
         self.initSize = size
@@ -33,6 +33,4 @@ class textButton():
 
 def getText(text, size, x, y, color):
     font = pygame.font.SysFont('arial', size)
-    text = font.render((str(text)), 1, color)
-    
-    return text
+    return font.render((str(text)), 1, color)

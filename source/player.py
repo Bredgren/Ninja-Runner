@@ -3,7 +3,7 @@ import funcs, game_vars, objects, bullets, data
 from constants import *
 from pygame.locals import *
 
-class player():
+class player:
     def __init__(self, x, y):
         self.spriteFrameLeft1 = data.load_image('ninja_stillL.png')
         self.spriteFrameRight1 = data.load_image('ninja_stillR.png')
@@ -45,10 +45,7 @@ class player():
         self.walkTime = 3
 
     def dead(self):
-        if self.health <= 0:
-            return True
-        else:
-            return False
+        return self.health <= 0
 
     def update(self):
         self.movment()
@@ -58,16 +55,16 @@ class player():
         else:
             if funcs.keyPressed(K_SPACE):
                 game_vars.throw.play()
-                objects.bulletList.append(bullets.basicBullet((self.xPos), (self.yPos + 6), self.dir))
+                objects.bulletList.append(bullets.basicBullet(self.xPos, self.yPos + 6, self.dir))
                 if self.dir == 1:
                     self.sprite = self.spriteFrameRight4
                 else:
                     self.sprite = self.spriteFrameLeft4
                 self.reloadTimer = self.reloadTime
 
-        for eachEnemy in objects.enemyList:
-            if funcs.checkCollision(self, eachEnemy):
-                self.health -= eachEnemy.damage
+        for enemy in objects.enemyList:
+            if funcs.checkCollision(self, enemy):
+                self.health -= enemy.damage
 
         objects.energyBar.update(self.energy)
         if self.health > 100:
@@ -77,32 +74,30 @@ class player():
         if self.dead():
             self.xPos = game_vars.saveXPos
             self.yPos = game_vars.saveYPos
-            funcs.changeLevel(game_vars.saveLevel[0],game_vars.saveLevel[1])
+            funcs.changeLevel(game_vars.saveLevel[0], game_vars.saveLevel[1])
             self.health = 100
             self.energy = 100
 
-
     def movment(self):
-
         if not self.jumped:
             if self.dir == 1:
                 self.sprite = self.spriteFrameRight1
             else:
                 self.sprite = self.spriteFrameLeft1
 
-        #---------Teleport
+        # Teleport
         for event in game_vars.events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if game_vars.powerTeleport and self.energy >= 75:
                         game_vars.teleport.play()
-                        self.xPos = event.pos[0] - self.width/2
-                        self.yPos = event.pos[1] - self.height/2
+                        self.xPos = event.pos[0] - self.width // 2
+                        self.yPos = event.pos[1] - self.height // 2
                         self.energy -= 75
                         self.teleported = True
 
-        #---------X movment
-        if funcs.keyPressed(K_d)or funcs.keyPressed(K_RIGHT):
+        # X movment
+        if funcs.keyPressed(K_d) or funcs.keyPressed(K_RIGHT):
             if not (self.sprite == self.spriteFrameRight2 or
                     self.sprite == self.spriteFrameRight3):
                 self.sprite = self.spriteFrameRight2
@@ -119,13 +114,12 @@ class player():
             if self.energy < 100:
                 self.energy += 0.1
 
-
-            for eachBlock in objects.blockList:
-                if funcs.checkCollision(self, eachBlock):
-                    if 'door' in eachBlock.image:
+            for block in objects.blockList:
+                if funcs.checkCollision(self, block):
+                    if 'door' in block.image:
                         game_vars.gameScreen = 'finish'
-                    if eachBlock.canCollide:
-                        while funcs.checkCollision(self, eachBlock):
+                    if block.canCollide:
+                        while funcs.checkCollision(self, block):
                             self.xPos -= 1
 
         elif funcs.keyPressed(K_a) or funcs.keyPressed(K_LEFT):
@@ -142,12 +136,12 @@ class player():
                     self.sprite = self.spriteFrameLeft3
                 self.walkTimer = 0
 
-            for eachBlock in objects.blockList:
-                if funcs.checkCollision(self, eachBlock):
-                    if 'door' in eachBlock.image:
+            for block in objects.blockList:
+                if funcs.checkCollision(self, block):
+                    if 'door' in block.image:
                         game_vars.gameScreen = 'finish'
-                    if eachBlock.canCollide:
-                        while funcs.checkCollision(self, eachBlock):
+                    if block.canCollide:
+                        while funcs.checkCollision(self, block):
                             self.xPos += 1
          
             if self.energy < 100:
@@ -166,9 +160,7 @@ class player():
                 self.sprite = self.spriteFrameLeft5
             self.teleported = False
 
-
-        #-------Y movment
-
+        # Y movment
         for event in game_vars.events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
@@ -192,7 +184,6 @@ class player():
                 else:
                     self.sprite = self.spriteFrameLeft5
 
-
         if self.yVel != 0 and self.jumped == False:
             self.jumped = True
 
@@ -201,55 +192,52 @@ class player():
         if self.yVel > -10:
             self.yVel -= GRAVITY
 
-
         if self.yVel >= 1:
-
-            for eachBlock in objects.blockList:
-                if funcs.checkCollision(self, eachBlock):
-                    if eachBlock.canCollide:
+            for block in objects.blockList:
+                if funcs.checkCollision(self, block):
+                    if block.canCollide:
                         while True:
-                            if funcs.checkCollision(self, eachBlock):
-                                self.yPos += 1
-                            else:
-                                self.yVel = 0
-                                break
-            for eachEnemy in objects.enemyList:
-                if funcs.checkCollision(self, eachEnemy):
-                    if eachEnemy.canCollide:
-                        eachEnemy.falling = True
-                        self.health -= eachEnemy.damage
-                        while True:
-                            if funcs.checkCollision(self, eachEnemy):
+                            if funcs.checkCollision(self, block):
                                 self.yPos += 1
                             else:
                                 self.yVel = 0
                                 break
 
+            for enemy in objects.enemyList:
+                if funcs.checkCollision(self, enemy):
+                    if enemy.canCollide:
+                        enemy.falling = True
+                        self.health -= enemy.damage
+                        while True:
+                            if funcs.checkCollision(self, enemy):
+                                self.yPos += 1
+                            else:
+                                self.yVel = 0
+                                break
         else:
-
-            for eachBlock in objects.blockList:
-                if funcs.checkCollision(self, eachBlock):
-                    if eachBlock.canCollide:
+            for block in objects.blockList:
+                if funcs.checkCollision(self, block):
+                    if block.canCollide:
                         while True:
-                            if funcs.checkCollision(self, eachBlock):
-                                self.yPos -= 1
-                            else:
-                                self.jumped = False
-                                self.yVel = 0
-                                break
-            for eachEnemy in objects.enemyList:
-                if funcs.checkCollision(self, eachEnemy):
-                    if eachEnemy.canCollide:
-                        eachEnemy.falling = True
-                        self.health -= eachEnemy.damage
-                        while True:
-                            if funcs.checkCollision(self, eachEnemy):
+                            if funcs.checkCollision(self, block):
                                 self.yPos -= 1
                             else:
                                 self.jumped = False
                                 self.yVel = 0
                                 break
 
+            for enemy in objects.enemyList:
+                if funcs.checkCollision(self, enemy):
+                    if enemy.canCollide:
+                        enemy.falling = True
+                        self.health -= enemy.damage
+                        while True:
+                            if funcs.checkCollision(self, enemy):
+                                self.yPos -= 1
+                            else:
+                                self.jumped = False
+                                self.yVel = 0
+                                break
 
     def draw(self):
         game_vars.screen.blit(self.sprite, (self.xPos,  self.yPos))

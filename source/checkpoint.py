@@ -1,6 +1,6 @@
 import funcs, game_vars, objects, level, data
 
-class checkpoint():
+class checkpoint:
     def __init__(self, x, y):
         self.sprite1 = data.load_image("checkpoint1.png")
         self.sprite2 = data.load_image("checkpoint2.png")
@@ -23,6 +23,5 @@ class checkpoint():
                 game_vars.saveXPos = self.xPos
                 game_vars.saveYPos = self.yPos
 
-
     def draw(self):
-        game_vars.screen.blit(self.sprite, (self.xPos,  self.yPos))
+        game_vars.screen.blit(self.sprite, (self.xPos, self.yPos))

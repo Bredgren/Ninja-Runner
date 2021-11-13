@@ -2,13 +2,11 @@ import pygame
 import funcs, game_vars, game, level, finish, intro, pause, sys
 from constants import *
 
-
 def main():
-
-    #Setup
+    # Setup
     funcs.initGame(WIN_WIDTH, WIN_HEIGHT, game_vars.caption)
 
-    #Main Loop
+    # Main loop
     while game_vars.runGame:
         if game_vars.gameScreen == "game":
             if game_vars.firstCall:
@@ -24,10 +22,9 @@ def main():
         elif game_vars.gameScreen == "finish":
             finish.main()
 
-        try:
-            funcs.updateMusic()
-        except: pass
+        funcs.updateMusic()
 
         game_vars.clock.tick(game_vars.fpsLimit)
+
     pygame.quit()
     sys.exit()

@@ -1,7 +1,11 @@
 import game_vars, funcs, objects, data
 from constants import *
 
-class teleport():
+class BasePowerUp:
+    def checkDeath(self):
+        pass
+
+class teleport(BasePowerUp):
     def __init__(self, x, y):
         self.sprite = data.load_image('teleport.png')
         self.xPos = x
@@ -19,7 +23,7 @@ class teleport():
         else:
             funcs.printText('T', 10, 25, 33, BLACK)
 
-class jetPack():
+class jetPack(BasePowerUp):
     def __init__(self, x, y):
         self.sprite = data.load_image('jet_pack.png')
         self.xPos = x
@@ -38,7 +42,7 @@ class jetPack():
         else:
             funcs.printText('J', 10, 10, 33, BLACK)
 
-class health():
+class health(BasePowerUp):
     def __init__(self, x, y):
         self.sprite = data.load_image('health.png')
         self.xPos = x
@@ -57,7 +61,7 @@ class health():
         if not self.used:
             game_vars.screen.blit(self.sprite, (self.xPos, self.yPos))
 
-class battery():
+class battery(BasePowerUp):
     def __init__(self, x, y):
         self.sprite = data.load_image('battery.png')
         self.xPos = x

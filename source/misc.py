@@ -1,12 +1,12 @@
 import pygame, funcs, game_vars, objects, data
 from constants import *
 
-class decalHit ():
+class decalHit:
     def __init__(self, sprite, xDir, yDir, time, x, y):
         if xDir < 0:
-            self.sprite = data.load_image(sprite+'1.png')
+            self.sprite = data.load_image(sprite + '1.png')
         elif xDir > 0:
-            self.sprite = data.load_image(sprite+'2.png')
+            self.sprite = data.load_image(sprite + '2.png')
         else:
             self.sprite = data.load_image(sprite)
         self.width = self.sprite.get_width()
@@ -21,11 +21,10 @@ class decalHit ():
         self.lives = time
 
     def update(self):
-
-        for eachBlock in objects.blockList:
-            if funcs.checkCollision(self, eachBlock):
-                if eachBlock.canCollide:
-                    while funcs.checkCollision(self, eachBlock):
+        for block in objects.blockList:
+            if funcs.checkCollision(self, block):
+                if block.canCollide:
+                    while funcs.checkCollision(self, block):
                         self.xPos += self.xDir
                         self.yPos += self.yDir
 
@@ -36,34 +35,34 @@ class decalHit ():
             return True
 
     def draw(self):
-        game_vars.screen.blit(self.sprite, (self.xPos,  self.yPos))
+        game_vars.screen.blit(self.sprite, (self.xPos, self.yPos))
 
-class energyBar():
+class energyBar:
     def __init__(self):
-        self.topleft = (5,15)
+        self.topleft = (5, 15)
         self.width = 100
         self.height = 10
-        self.textx = self.width/2
-        self.texty = (self.height/2)+self.topleft[1]
+        self.textx = self.width // 2
+        self.texty = (self.height // 2) + self.topleft[1]
 
     def update(self, value):
         self.width = value
 
     def draw(self):
-        game_vars.screen.fill(DARKBLUE, (self.topleft[0],self.topleft[1],self.width,self.height))
+        game_vars.screen.fill(DARKBLUE, (self.topleft[0], self.topleft[1], self.width, self.height))
         funcs.printText('Energy', 10, self.textx, self.texty, WHITE)
         
-class healthBar():
+class healthBar:
     def __init__(self):
-        self.topleft = (5,5)
+        self.topleft = (5, 5)
         self.width = 100
         self.height = 10
-        self.textx = self.width/2
-        self.texty = (self.height/2)+self.topleft[1]
+        self.textx = self.width // 2
+        self.texty = (self.height // 2) + self.topleft[1]
 
     def update(self, value):
         self.width = value
 
     def draw(self):
-        game_vars.screen.fill(GREEN, (self.topleft[0],self.topleft[1],self.width,self.height))
+        game_vars.screen.fill(GREEN, (self.topleft[0], self.topleft[1], self.width, self.height))
         funcs.printText('Health', 10, self.textx, self.texty, BLACK)

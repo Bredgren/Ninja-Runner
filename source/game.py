@@ -3,7 +3,6 @@ import game_vars, objects, level, funcs, checkpoint
 from constants import *
 
 def main():
-
     #---Reset Screen and Draw Background
     game_vars.screen.fill((0,0,0))
 
@@ -13,98 +12,72 @@ def main():
     game_vars.events = pygame.event.get()
 
     #---Update Blocks---
-    for eachBlock in  objects.blockList:
-        try:
-            eachBlock.update()
-        except:
-            pass
+    for block in objects.blockList:
+        block.update()
 
-    for eachBlock in  objects.blockList:
-        try:
-            if eachBlock.checkDeath():
-                objects.blockList.remove(eachBlock)
-        except:
-            pass
+    for block in objects.blockList:
+        if block.checkDeath():
+            objects.blockList.remove(block)
 
-    for eachBlock in  objects.blockList:
-        eachBlock.draw()
+    for block in objects.blockList:
+        block.draw()
 
     #---Update checkpoint---
-    try:
+    if objects.checkpoint:
         objects.checkpoint.update()
         objects.checkpoint.draw()
-    except:
-        pass
 
     #---Update Bullets---
-    for eachBullet in objects.bulletList:
-        for eachEnemy in objects.enemyList:
-            if funcs.checkCollision(eachBullet, eachEnemy):
-                try: objects.bulletList.remove(eachBullet)
-                except: pass
-                if not eachEnemy.lives == -1:
-                    if eachEnemy.lives > 1:
-                        eachEnemy.lives -= 1
+    for bullet in objects.bulletList:
+        for enemy in objects.enemyList:
+            if funcs.checkCollision(bullet, enemy):
+                objects.bulletList.remove(bullet)
+                if not enemy.lives == -1:
+                    if enemy.lives > 1:
+                        enemy.lives -= 1
                     else:
-                        if eachEnemy.canCollide:
-                            eachEnemy.falling = True
+                        if enemy.canCollide:
+                            enemy.falling = True
                         else:
-                            if eachEnemy.damage == BALLDAMAGE:
+                            if enemy.damage == BALLDAMAGE:
                                 game_vars.ball_death.play()
                             else:
                                 game_vars.robot_death.play()
-                            objects.enemyList.remove(eachEnemy)
+                            objects.enemyList.remove(enemy)
 
+    for bullet in objects.bulletList:
+        bullet.update()
 
-    for eachBullet in objects.bulletList:
-        eachBullet.update()
+    for bullet in objects.bulletList:
+        if bullet.checkDeath():
+            objects.bulletList.remove(bullet)
 
-    for eachBullet in objects.bulletList:
-        if eachBullet.checkDeath():
-            try: objects.bulletList.remove(eachBullet)
-            except: pass
-
-
-    for eachBullet in objects.bulletList:
-        eachBullet.draw()
+    for bullet in objects.bulletList:
+        bullet.draw()
 
     #---Update Enemys---
-    for eachEnemy in objects.enemyList:
-        try: eachEnemy.update()
-        except: pass
+    for enemy in objects.enemyList:
+        enemy.update()
 
-        try:
-            if eachEnemy.checkDeath():
-                objects.enemyList.remove(eachEnemy)
+        if enemy.checkDeath():
+            objects.enemyList.remove(enemy)
 
-        except:
-            pass
-    for eachEnemy in objects.enemyList:
-        eachEnemy.draw()
+    for enemy in objects.enemyList:
+        enemy.draw()
 
     #---Update Decals---
-    for eachDecal in  objects.decalList:
-        try:
-            eachDecal.update()
-        except:
-            pass
+    for decal in objects.decalList:
+        decal.update()
 
-        try:
-            if eachDecal.checkDeath():
-                objects.decalList.remove(eachDecal)
-        except:
-            pass
+        if decal.checkDeath():
+            objects.decalList.remove(decal)
 
-        eachDecal.draw()
+        decal.draw()
 
     #---Update Healths and Batteriess---
     for item in objects.health_battery:
-        try:
-            item.update()
-        except:
-            pass
+        item.update()
         item.draw()
-
 
     #---Update Player---
     objects.player.update()
@@ -113,16 +86,16 @@ def main():
     #---Change Screen---
     try:
         if objects.player.xPos + objects.player.width > WIN_WIDTH:
-            funcs.changeLevel(level.levelSpawner.level[0]+1, level.levelSpawner.level[1])
+            funcs.changeLevel(level.levelSpawner.level[0] + 1, level.levelSpawner.level[1])
             objects.player.xPos = 0
         elif objects.player.xPos < 0:
-            funcs.changeLevel(level.levelSpawner.level[0]-1, level.levelSpawner.level[1])
+            funcs.changeLevel(level.levelSpawner.level[0] - 1, level.levelSpawner.level[1])
             objects.player.xPos = WIN_WIDTH - objects.player.width
         elif objects.player.yPos + objects.player.height > WIN_HEIGHT:
-            funcs.changeLevel(level.levelSpawner.level[0], level.levelSpawner.level[1]+1)
+            funcs.changeLevel(level.levelSpawner.level[0], level.levelSpawner.level[1] + 1)
             objects.player.yPos = 0
         elif objects.player.yPos < 0:
-            funcs.changeLevel(level.levelSpawner.level[0], level.levelSpawner.level[1]-1)
+            funcs.changeLevel(level.levelSpawner.level[0], level.levelSpawner.level[1] - 1)
             objects.player.yPos = WIN_HEIGHT - objects.player.height
     except IndexError:
         level.levelSpawner.level = game_vars.startLevel
@@ -147,9 +120,8 @@ def main():
                 game_vars.gameScreen = "paused"
 
     # Show time and fps
-    funcs.printText('%s s' %(round(game_vars.time/1000.0,2)), 20, 120, 10, BLACK, 1)
-    funcs.printText('%s' %(round(game_vars.clock.get_fps(),2)), 20, 5, WIN_HEIGHT-15, LIGHTGREY, 1)
-
+    funcs.printText('%s s' %(round(game_vars.time / 1000.0, 2)), 20, 120, 10, BLACK, 1)
+    funcs.printText('%s' %(round(game_vars.clock.get_fps(), 2)), 20, 5, WIN_HEIGHT - 15, LIGHTGREY, 1)
 
     #---Update Screen---
     pygame.display.flip()

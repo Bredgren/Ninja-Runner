@@ -8,7 +8,7 @@ def main():
     if game_vars.introScreen == "main":
         game_vars.screen.fill(BLACK)
         image = data.load_image("intro.png")
-        game_vars.screen.blit(image, (0,  0))
+        game_vars.screen.blit(image, (0, 0))
 
         mousePos = pygame.mouse.get_pos()
         for button in objects.mainButtonList:
@@ -33,8 +33,8 @@ def main():
         
     elif game_vars.introScreen == "choose level":
         image = data.load_image('choose_level.png')
-        game_vars.screen.blit(image, (0,0))
-        pages = int(len(objects.levelButtonList)/7) + 1
+        game_vars.screen.blit(image, (0, 0))
+        pages = int(len(objects.levelButtonList) // 7) + 1
         firstItem = (6 * game_vars.lvlPage) - 6
         lastItem = (game_vars.lvlPage * 6)
         try:
@@ -45,29 +45,29 @@ def main():
         mousePos = pygame.mouse.get_pos()
 
         for lvl in range(len(objects.levelButtonList[firstItem:lastItem])):
-            dispLoc = (20 + (objects.levelButtonList[lvl+firstItem].rect.width/2),
+            dispLoc = (20 + (objects.levelButtonList[lvl+firstItem].rect.width // 2),
                        130 + (70 * lvl))
             objects.levelButtonList[lvl+firstItem].xPos = dispLoc[0]
             objects.levelButtonList[lvl+firstItem].yPos = dispLoc[1]
             objects.levelButtonList[lvl+firstItem].update(mousePos)
             objects.levelButtonList[lvl+firstItem].draw()
 
-            timeDispLoc = ((WIN_WIDTH-(objects.timeList[lvl+firstItem].rect.width/2))-150,
+            timeDispLoc = ((WIN_WIDTH - (objects.timeList[lvl + firstItem].rect.width // 2)) - 150,
                             130 + (70 * lvl))
             objects.timeList[lvl+firstItem].xPos = timeDispLoc[0]
             objects.timeList[lvl+firstItem].yPos = timeDispLoc[1]
             objects.timeList[lvl+firstItem].update(mousePos)
             objects.timeList[lvl+firstItem].size = objects.timeList[lvl+firstItem].initSize
-            if float(objects.times[lvl+firstItem]) <= float(objects.beatTimes[lvl+firstItem]):
-                objects.timeList[lvl+firstItem].color = GREEN
-            objects.timeList[lvl+firstItem].draw()
+            if float(objects.times[lvl + firstItem]) <= float(objects.beatTimes[lvl + firstItem]):
+                objects.timeList[lvl + firstItem].color = GREEN
+            objects.timeList[lvl + firstItem].draw()
 
-            beatDispLoc = ((WIN_WIDTH-(objects.timeList[lvl+firstItem].rect.width/2))-10,
+            beatDispLoc = ((WIN_WIDTH - (objects.timeList[lvl + firstItem].rect.width // 2)) - 10,
                             130 + (70 * lvl))
             objects.beatList[lvl+firstItem].xPos = beatDispLoc[0]
             objects.beatList[lvl+firstItem].yPos = beatDispLoc[1]
             objects.beatList[lvl+firstItem].update(mousePos)
-            objects.beatList[lvl+firstItem].size = objects.beatList[lvl+firstItem].initSize
+            objects.beatList[lvl+firstItem].size = objects.beatList[lvl + firstItem].initSize
             objects.beatList[lvl+firstItem].draw()
 
         objects.pageButtonList[2].update(mousePos)
@@ -99,9 +99,8 @@ def main():
                             game_vars.levelIndex = objects.levelButtonList.index(button)
                             game_vars.saveLevel = objects.player_pos[game_vars.levelIndex]
                             game_vars.startLevel = objects.player_pos[game_vars.levelIndex]
-                            try:
+                            if level.levelSpawner:
                                 level.levelSpawner.reset()
-                            except: pass 
             elif event.type == pygame.QUIT:
                 game_vars.runGame = False
 
@@ -109,7 +108,7 @@ def main():
 
     elif game_vars.introScreen == 'instructions':
         image = data.load_image('instructions.png')
-        game_vars.screen.blit(image, (0,0))
+        game_vars.screen.blit(image, (0, 0))
         pygame.display.flip()
 
         for event in pygame.event.get():

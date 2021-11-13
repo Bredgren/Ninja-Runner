@@ -2,7 +2,14 @@ import math
 import game_vars, funcs, objects, bullets, misc, data
 from constants import *
 
-class ball():
+class BaseEnemy:
+    def checkDeath(self):
+        pass
+
+    def update(self):
+        pass
+
+class ball(BaseEnemy):
     def __init__(self, x, y):
         self.spriteFrameLeft1 = data.load_image('ball_left1.png')
         self.spriteFrameRight1 = data.load_image('ball_right1.png')
@@ -32,7 +39,6 @@ class ball():
         self.canCollide = False
 
     def update(self):
-
         self.walkTimer += 1
         
         if self.dir == 1:
@@ -101,7 +107,7 @@ class ball():
     def draw(self):
         game_vars.screen.blit(self.sprite, (self.xPos,  self.yPos))
 
-class robot():
+class robot(BaseEnemy):
     def __init__(self, x, y):
         self.spriteFrameLeft1 = data.load_image('robot_left1.png')
         self.spriteFrameRight1 = data.load_image('robot_right1.png')
@@ -128,7 +134,6 @@ class robot():
         self.canCollide = False
 
     def update(self):
-
         self.walkTimer += 1
         
         if self.dir == 1:
@@ -183,7 +188,7 @@ class robot():
     def draw(self):
         game_vars.screen.blit(self.sprite, (self.xPos,  self.yPos))
 
-class spike():
+class spike(BaseEnemy):
     def __init__(self, x, y):
         self.sprite = data.load_image('floor_spike.png')
         self.xPos = x
