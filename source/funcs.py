@@ -10,7 +10,7 @@ def initGame(width, height, caption):
     loadSfx()
 
     # Setup screen
-    game_vars.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    game_vars.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT), flags=pygame.SCALED)
     pygame.display.set_caption(caption)
     icon = data.load_image('icon_img.png')
     pygame.display.set_icon(icon)
@@ -112,6 +112,23 @@ def gameReset():
     game_vars.powerJetPack = False
     game_vars.powerTeleport = False
     game_vars.levelName = ''
+    game_vars.saveLevel = [1, 1]
+    game_vars.saveXPos = PLAYERSTART[0]
+    game_vars.saveYPos = PLAYERSTART[1]
+    game_vars.time = 0
+    del objects.enemyList[:]
+    del objects.blockList[:]
+    del objects.decalList[:]
+    del objects.bulletList[:]
+    del objects.health_battery[:]
+    objects.checkpoint = None
+    level.levelSpawner.reset()
+
+def levelReset():
+    refreshLevelData()
+    game_vars.firstCall = True
+    game_vars.powerJetPack = False
+    game_vars.powerTeleport = False
     game_vars.saveLevel = [1, 1]
     game_vars.saveXPos = PLAYERSTART[0]
     game_vars.saveYPos = PLAYERSTART[1]

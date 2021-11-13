@@ -116,8 +116,10 @@ def main():
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 funcs.gameReset()
-            if event.key == pygame.K_p:
+            elif event.key == pygame.K_p:
                 game_vars.gameScreen = "paused"
+            elif event.key == pygame.K_r:
+                funcs.levelReset()
 
     # Show time and fps
     funcs.printText('%s s' %(round(game_vars.time / 1000.0, 2)), 20, 120, 10, BLACK, 1)
